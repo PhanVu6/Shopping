@@ -37,10 +37,20 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public ApiResponse<CustomerDTO> getById(UUID id) {
+        ApiResponse<CustomerDTO> apiResponse = new ApiResponse<>();
+        if (customerRepository.count() == 0) {
+            apiResponse.setMessage("Danh sách khách hàng rỗng");
+            return null;
+        }
+
+        if (!customerRepository.existsById(id)) {
+            apiResponse.setMessage("Gọi khách hàng thất bại");
+            throw new NoSuchElementException();
+        }
         Customer customer = customerRepository.findById(id).get();
         CustomerDTO customerDTO = customerMapper.toDTO(customer);
 
-        ApiResponse<CustomerDTO> apiResponse = new ApiResponse<>();
+
         apiResponse.setResult(customerDTO);
         apiResponse.setMessage(customer != null ?
                 String.format("Lấy thành công thông tin khách hàng %s", customer.getName())

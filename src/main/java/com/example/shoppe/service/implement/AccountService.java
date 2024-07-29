@@ -21,10 +21,20 @@ public class AccountService implements IAccountService {
 
     @Override
     public ApiResponse<AccountDTO> getById(UUID id) {
+        ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
+        if (accountRepository.count() == 0) {
+            apiResponse.setMessage("Danh sách tài khoản rỗng");
+            return null;
+        }
+
+        if (!accountRepository.existsById(id)) {
+            apiResponse.setMessage("Gọi tài khoản thất bại");
+            throw new NoSuchElementException();
+        }
         Account account = accountRepository.findById(id).get();
         AccountDTO accountDTO = accountMapper.toDTO(account);
 
-        ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
+
         apiResponse.setResult(accountDTO);
         apiResponse.setMessage(account != null ?
                 String.format("Lấy thành công thông tin tài khoản %s", account.getAccountType())
@@ -54,7 +64,7 @@ public class AccountService implements IAccountService {
     public ApiResponse<AccountDTO> update(AccountDTO accountDTO, UUID id) {
         ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
         if (!accountRepository.existsById(id)) {
-            apiResponse.setMessage("Cập nhập khách hàng thất bại");
+            apiResponse.setMessage("Cập nhập tài khoản thất bại");
             throw new NoSuchElementException();
         }
 

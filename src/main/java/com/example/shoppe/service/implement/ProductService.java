@@ -37,10 +37,21 @@ public class ProductService implements IProductService {
 
     @Override
     public ApiResponse<ProductDTO> getById(UUID id) {
+        ApiResponse<ProductDTO> apiResponse = new ApiResponse<>();
+        if (productRepository.count() == 0) {
+            apiResponse.setMessage("Danh sách sản phẩm rỗng");
+            return null;
+        }
+
+        if (!productRepository.existsById(id)) {
+            apiResponse.setMessage("Gọi sản phẩm thất bại");
+            throw new NoSuchElementException();
+        }
+
         Product product = productRepository.findById(id).get();
         ProductDTO productDTO = productMapper.toDTO(product);
 
-        ApiResponse<ProductDTO> apiResponse = new ApiResponse<>();
+
         apiResponse.setResult(productDTO);
         apiResponse.setMessage(productDTO != null ? String.format("Lấy thành công sản phẩm %s", productDTO.getName())
                 : "Lấy sản phẩm thất bại");
