@@ -23,19 +23,19 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<AccountDTO>> save(AccountDTO accountDTO) {
+    public ResponseEntity<ApiResponse<AccountDTO>> save(@RequestBody AccountDTO accountDTO) {
         ApiResponse<AccountDTO> apiResponse = accountService.save(accountDTO);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<ApiResponse<AccountDTO>> update(AccountDTO accountDTO, UUID id) {
+    @PutMapping("{id}")
+    public ResponseEntity<ApiResponse<AccountDTO>> update(@RequestBody AccountDTO accountDTO, @PathVariable("id") UUID id) {
         ApiResponse<AccountDTO> apiResponse = accountService.update(accountDTO, id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Boolean>> delete(UUID id) {
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") UUID id) {
         ApiResponse<Boolean> apiResponse = accountService.delete(id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

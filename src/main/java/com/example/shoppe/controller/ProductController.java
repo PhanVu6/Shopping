@@ -30,19 +30,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ProductDTO>> save(ProductDTO productDTO) {
+    public ResponseEntity<ApiResponse<ProductDTO>> save(@RequestBody ProductDTO productDTO) {
         ApiResponse<ProductDTO> apiResponse = productService.save(productDTO);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<ApiResponse<ProductDTO>> update(ProductDTO productDTO, UUID id) {
+    @PutMapping("{id}")
+    public ResponseEntity<ApiResponse<ProductDTO>> update(@RequestBody ProductDTO productDTO, @PathVariable("id") UUID id) {
         ApiResponse<ProductDTO> apiResponse = productService.update(productDTO, id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Boolean>> delete(UUID id) {
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") UUID id) {
         ApiResponse<Boolean> apiResponse = productService.delete(id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

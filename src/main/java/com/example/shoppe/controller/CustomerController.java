@@ -30,19 +30,19 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CustomerDTO>> save(CustomerDTO customerDTO) {
+    public ResponseEntity<ApiResponse<CustomerDTO>> save(@RequestBody CustomerDTO customerDTO) {
         ApiResponse<CustomerDTO> apiResponse = customerService.save(customerDTO);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ApiResponse<CustomerDTO>> update(CustomerDTO customerDTO, UUID id) {
+    public ResponseEntity<ApiResponse<CustomerDTO>> update(@RequestBody CustomerDTO customerDTO, UUID id) {
         ApiResponse<CustomerDTO> apiResponse = customerService.update(customerDTO, id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Boolean>> delete(UUID id) {
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable UUID id) {
         ApiResponse<Boolean> apiResponse = customerService.delete(id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
