@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class AccountDTO {
+    private Long account_number;
     private String accountType;
     private Double balance;
     private Customer customer;

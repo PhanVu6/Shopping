@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "account")
 @Getter
@@ -15,7 +17,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "account_id", nullable = false)
+    private UUID account_id;
+
     @Column(name = "account_number", nullable = false)
     private Long account_number;
 
@@ -27,5 +32,6 @@ public class Account {
 
     @OneToOne
     @JsonBackReference
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 }
