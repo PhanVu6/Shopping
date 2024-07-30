@@ -1,6 +1,6 @@
 package com.example.shoppe.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +30,9 @@ public class Account {
     @Column(name = "balance")
     private Double balance;
 
-    @JsonManagedReference
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     @JoinColumn(name = "customer_id")
     private Customer customer;
 }

@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService implements IProductService {
     @Autowired
-    public ProductRepository productRepository;
+    private ProductRepository productRepository;
 
-    public final ProductMapper productMapper = ProductMapper.INSTANCE;
+    private final ProductMapper productMapper = ProductMapper.INSTANCE;
 
     @Override
     public ApiResponse<List<ProductDTO>> getAll() {

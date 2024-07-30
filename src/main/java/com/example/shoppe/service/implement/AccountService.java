@@ -6,6 +6,7 @@ import com.example.shoppe.mapper.AccountMapper;
 import com.example.shoppe.model.Account;
 import com.example.shoppe.repository.AccountRepository;
 import com.example.shoppe.service.IAccountService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public class AccountService implements IAccountService {
     @Autowired
-    public AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
-    public final AccountMapper accountMapper = AccountMapper.INSTANCE;
+    private final AccountMapper accountMapper = AccountMapper.INSTANCE;
 
     @Override
     public ApiResponse<List<AccountDTO>> getAll() {
@@ -100,6 +101,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    @Transactional
     public ApiResponse<Boolean> delete(UUID id) {
         ApiResponse<Boolean> apiResponse = new ApiResponse<>();
         if (!accountRepository.existsById(id)) {
@@ -112,6 +114,7 @@ public class AccountService implements IAccountService {
 
         apiResponse.setResult(true);
         apiResponse.setMessage("Xóa tài khoản thành công");
+
         return apiResponse;
     }
 }

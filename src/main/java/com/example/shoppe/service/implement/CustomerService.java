@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerService implements ICustomerService {
     @Autowired
-    public CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
-    public final CustomerMapper customerMapper = CustomerMapper.INSTANCE;
+    private final CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     @Override
     public ApiResponse<List<CustomerDTO>> getAll() {
