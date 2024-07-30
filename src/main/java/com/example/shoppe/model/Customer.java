@@ -1,6 +1,6 @@
 package com.example.shoppe.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customer", uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 @Getter
 @Setter
 @AllArgsConstructor
@@ -46,7 +46,8 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "customer_id"))
     private Set<Product> products;
 
-    @OneToOne(mappedBy = "customer")
-    @JsonManagedReference
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Account accounts;
 }

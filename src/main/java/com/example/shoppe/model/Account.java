@@ -1,6 +1,6 @@
 package com.example.shoppe.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "account")
+@Table(name = "account", uniqueConstraints = @UniqueConstraint(columnNames = {"account_number"}))
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,8 +30,8 @@ public class Account {
     @Column(name = "balance")
     private Double balance;
 
+    @JsonManagedReference
     @OneToOne
-    @JsonBackReference
     @JoinColumn(name = "customer_id")
     private Customer customer;
 }

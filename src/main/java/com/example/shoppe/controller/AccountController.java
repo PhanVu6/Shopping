@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +16,12 @@ import java.util.UUID;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<AccountDTO>>> getAll() {
+        ApiResponse<List<AccountDTO>> apiResponse = accountService.getAll();
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<ApiResponse<AccountDTO>> getById(@PathVariable("id") UUID id) {

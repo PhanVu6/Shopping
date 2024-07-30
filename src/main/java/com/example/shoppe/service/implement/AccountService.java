@@ -9,8 +9,9 @@ import com.example.shoppe.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService implements IAccountService {
@@ -20,16 +21,30 @@ public class AccountService implements IAccountService {
     public final AccountMapper accountMapper = AccountMapper.INSTANCE;
 
     @Override
+    public ApiResponse<List<AccountDTO>> getAll() {
+        List<Account> accounts = accountRepository.findAll();
+        List<AccountDTO> accountDTOS = accounts.stream().map(accountMapper::toDTO).collect(Collectors.toList());
+
+        ApiResponse<List<AccountDTO>> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(accountDTOS);
+        apiResponse.setMessage(!accountDTOS.isEmpty() ?
+                "Lấy danh sách khách hàng thành công"
+                : "Lấy danh sách khách hàng thất bại");
+        return apiResponse;
+
+    }
+
+    @Override
     public ApiResponse<AccountDTO> getById(UUID id) {
         ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
         if (accountRepository.count() == 0) {
             apiResponse.setMessage("Danh sách tài khoản rỗng");
-            return null;
+            return apiResponse;
         }
 
         if (!accountRepository.existsById(id)) {
             apiResponse.setMessage("Gọi tài khoản thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
         Account account = accountRepository.findById(id).get();
         AccountDTO accountDTO = accountMapper.toDTO(account);
@@ -65,7 +80,7 @@ public class AccountService implements IAccountService {
         ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
         if (!accountRepository.existsById(id)) {
             apiResponse.setMessage("Cập nhập tài khoản thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
 
         if (accountDTO != null) {
@@ -94,6 +109,7 @@ public class AccountService implements IAccountService {
         }
 
         accountRepository.deleteById(id);
+
         apiResponse.setResult(true);
         apiResponse.setMessage("Xóa tài khoản thành công");
         return apiResponse;

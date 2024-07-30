@@ -35,8 +35,8 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<ApiResponse<CustomerDTO>> update(@RequestBody CustomerDTO customerDTO, UUID id) {
+    @PutMapping("{id}")
+    public ResponseEntity<ApiResponse<CustomerDTO>> update(@RequestBody CustomerDTO customerDTO, @PathVariable("id") UUID id) {
         ApiResponse<CustomerDTO> apiResponse = customerService.update(customerDTO, id);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package com.example.shoppe.mapper;
 import com.example.shoppe.dto.request.CustomerDTO;
 import com.example.shoppe.model.Customer;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
@@ -20,5 +21,6 @@ public interface CustomerMapper {
 
     Set<CustomerDTO> toSetDTO(Set<Customer> customers);
 
+    @Mapping(target = "customer_id", ignore = true)
     void updateEntityFromDTO(CustomerDTO customerDTO, @MappingTarget Customer customer);
 }

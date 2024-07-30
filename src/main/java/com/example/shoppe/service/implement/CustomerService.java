@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,12 +39,12 @@ public class CustomerService implements ICustomerService {
         ApiResponse<CustomerDTO> apiResponse = new ApiResponse<>();
         if (customerRepository.count() == 0) {
             apiResponse.setMessage("Danh sách khách hàng rỗng");
-            return null;
+            return apiResponse;
         }
 
         if (!customerRepository.existsById(id)) {
             apiResponse.setMessage("Gọi khách hàng thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
         Customer customer = customerRepository.findById(id).get();
         CustomerDTO customerDTO = customerMapper.toDTO(customer);
@@ -81,7 +80,7 @@ public class CustomerService implements ICustomerService {
         ApiResponse<CustomerDTO> apiResponse = new ApiResponse<>();
         if (!customerRepository.existsById(id)) {
             apiResponse.setMessage("Cập nhập khách hàng thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
 
         if (customerDTO != null) {

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,12 +39,12 @@ public class ProductService implements IProductService {
         ApiResponse<ProductDTO> apiResponse = new ApiResponse<>();
         if (productRepository.count() == 0) {
             apiResponse.setMessage("Danh sách sản phẩm rỗng");
-            return null;
+            return apiResponse;
         }
 
         if (!productRepository.existsById(id)) {
             apiResponse.setMessage("Gọi sản phẩm thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
 
         Product product = productRepository.findById(id).get();
@@ -81,7 +80,7 @@ public class ProductService implements IProductService {
         ApiResponse<ProductDTO> apiResponse = new ApiResponse<>();
         if (!productRepository.existsById(id)) {
             apiResponse.setMessage("Cập nhập sản phẩm thất bại");
-            throw new NoSuchElementException();
+            return apiResponse;
         }
 
         if (productDTO != null) {

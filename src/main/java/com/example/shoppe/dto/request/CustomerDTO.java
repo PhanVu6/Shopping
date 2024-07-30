@@ -8,12 +8,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
 public class CustomerDTO {
+    private UUID customer_id;
+
     private String username;
 
     private String password;
@@ -27,6 +30,6 @@ public class CustomerDTO {
     private String contactNo;
 
     private Set<Product> products;
-    
+
     private Account accounts;
 }

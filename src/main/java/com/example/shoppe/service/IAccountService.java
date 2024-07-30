@@ -3,9 +3,12 @@ package com.example.shoppe.service;
 import com.example.shoppe.dto.request.AccountDTO;
 import com.example.shoppe.dto.response.ApiResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IAccountService {
+
+    ApiResponse<List<AccountDTO>> getAll();
 
     ApiResponse<AccountDTO> getById(UUID id);
 
